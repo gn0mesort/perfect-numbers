@@ -12,9 +12,10 @@
   "Usage: %s [options]\n" \
   "Options:\n" \
   "  --help, -h\n" \
-  "    Print this help message.\n" \
+  "      Print this help message.\n" \
   "  --bits=<8,16,32,64>, -b <8,16,32,64>\n" \
-  "    Generate perfect numbers within the range of the given bit width."
+  "      Generate perfect numbers within the range of the given bit width.\n" \
+  "      Defaults to %zu."
 
 static const struct option longopts[] = {
   { "bits", required_argument, NULL, 'b' },
@@ -39,7 +40,7 @@ int main(int argc, char** argv) {
         }
         break;
       case 'h':
-        printf(HELP "\n", argv[0]);
+        printf(HELP "\n", argv[0], sizeof(void*) * CHAR_BIT);
         goto done;
       default:
         goto err;
