@@ -13,7 +13,7 @@
   "Options:\n" \
   "  --help, -h\n" \
   "    Print this help message.\n" \
-  "  --bits=<8,16,32,64>, -b=<8,16,32,64>\n" \
+  "  --bits=<8,16,32,64>, -b <8,16,32,64>\n" \
   "    Generate perfect numbers within the range of the given bit width."
 
 static const struct option longopts[] = {
