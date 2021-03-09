@@ -32,13 +32,17 @@ int main(int argc, char** argv) {
       switch (opt)
       {
       case 'b':
-        sscanf(optarg, "%zu\n", &bits);
+        if (!sscanf(optarg, "%zu\n", &bits))
+        {
+          fprintf(stderr, "%s: \"%s\" is not a valid number.\n", argv[0], optarg);
+          goto err;
+        }
         break;
       case 'h':
         printf(HELP "\n", argv[0]);
         goto done;
       default:
-        break;
+        goto err;
       }
     }
   }
@@ -48,7 +52,7 @@ int main(int argc, char** argv) {
   res = perfect_create_generator(&generator);
   if (res != PERFECT_RESULT_SUCCESS)
   {
-    fprintf(stderr, "Failed to create perfect_generator.\n");
+    fprintf(stderr, "%s: failed to create perfect_generator.\n", argv[0]);
     goto err;
   }
   union {
@@ -74,12 +78,12 @@ int main(int argc, char** argv) {
       res = perfect_next64(generator, &value.u64);
       break;
     default:
-      fprintf(stderr, "Bad bit width.\n");
+      fprintf(stderr, "%s: bad bit width %zu.\n", argv[0], bits);
       goto err;
     }
     if (res < 0)
     {
-      fprintf(stderr, "Failed to generate perfect numbers.\n");
+      fprintf(stderr, "%s: failed to generate perfect numbers.\n", argv[0]);
       goto err;
     }
     if (res == PERFECT_RESULT_SUCCESS)
