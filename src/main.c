@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <inttypes.h>
+#include <stddef.h>
+#include <stdlib.h>
 #include <limits.h>
 
 #include <getopt.h>
@@ -21,6 +23,7 @@ static const struct option longopts[] = {
 };
 
 int main(int argc, char** argv) {
+  int exit = EXIT_SUCCESS;
   size_t bits = sizeof(void*) * CHAR_BIT; // This is probably the processor word length.
   {
     int opt = 0;
@@ -54,6 +57,7 @@ int main(int argc, char** argv) {
     uint32_t u32;
     uint64_t u64;
   } value;
+  value.u64 = 0;
   do {
     switch (bits)
     {
@@ -83,10 +87,10 @@ int main(int argc, char** argv) {
       printf("%" PRIu64 "\n", value.u64);
     }
   } while (res != PERFECT_RESULT_NOMORE);
-  perfect_destroy_generator(&generator);
   goto done;
 err:
-  return 1;
+  exit = EXIT_FAILURE;
 done:
-  return 0;
+  perfect_destroy_generator(&generator);
+  return exit;
 }
