@@ -3,14 +3,15 @@
 #include <stdlib.h>
 
 /**
- * A Mersenne prime is an integer n such that (1 << n) - 1 is prime.
- * This is a list of Mersenne primes such that n + (n - 1) < 64.
+ * A Mersenne prime is a prime of the form (1 << p) - 1.
+ * This is a list of values n to calculate Mersenne primes such that
+ * p + (p - 1) < 64.
  *
- * Assuming a perfect number is (1 << (n - 1)) * ((1 << n) - 1) these are
- * the only numbers worth checking for the possible ranges of 8,16,32, or 64
+ * Assuming a perfect number is (1 << (p - 1)) * ((1 << p) - 1) these are
+ * the only numbers worth checking for the possible ranges of 8, 16, 32, or 64
  * bit computers.
  */
-static const uintmax_t mersenne_primes[] = {
+static const uintmax_t mersenne_prime_ps[] = {
   2, 3, 5, 7, 13, 17, 19, 31
 };
 
@@ -64,8 +65,8 @@ done:
       goto done; \
     } \
     *value = \
-      ((one) << (mersenne_primes[generator->position] - (one))) * \
-      (((one) << mersenne_primes[generator->position]) - (one)); \
+      ((one) << (mersenne_prime_ps[generator->position] - (one))) * \
+      (((one) << mersenne_prime_ps[generator->position]) - (one)); \
     ++generator->position; \
 done: \
     return result; \
